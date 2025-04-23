@@ -81,6 +81,17 @@
     }
       @media (max-width: 768px) {
       body {
+        background: url('https://files.zinecultural.com/Repositorio/Upload/S3/mlib-uploads/full/tumblr-mkvbb8vf5a1qbtciyo1-r1-500-58f67c0b6da5a.gif') center top scroll;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-color: rgba(249, 249, 249, 0.95);
+        background-blend-mode: overlay;
+      }
+      #gameCanvas {
+        width: 100% !important;
+        height: auto !important;
+      }
+      body {
         background-attachment: scroll;
         background-position: center top;
         background-size: cover;
@@ -152,7 +163,7 @@
 
   <section class="container">
     <h2>Jogo do Garrafão</h2>
-    <canvas id="gameCanvas" width="800" height="300" style="background: #cce7ff; border-radius: 8px; display: block; margin: 20px auto;"></canvas>
+    <canvas id="gameCanvas" width="800" height="300" style="background: #cce7ff; border-radius: 8px; display: block; margin: 20px auto; max-width: 100%; height: auto;"></canvas>
   </section>
 
   <footer>
