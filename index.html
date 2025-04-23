@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>S & S Distribuidora de Bebidas - Manaus</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background: #f9f9f9;
+      color: #333;
+    }
+    header {
+      background: #0d47a1;
+      color: white;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    header img {
+      height: 160px;
+    }
+    header h1 {
+      font-size: 36px;
+      margin: 0 20px;
+      flex-grow: 1;
+    }
+    header a button {
+      background: white;
+      color: #0d47a1;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .gallery img {
+      width: 100%;
+      max-width: 220px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .buttons {
+      margin-bottom: 20px;
+    }
+    .buttons button {
+      margin-right: 10px;
+      padding: 10px 16px;
+      background: #e0e0e0;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .buttons button.active {
+      background: #0d47a1;
+      color: white;
+    }
+    footer {
+      background: #eee;
+      text-align: center;
+      padding: 20px;
+      font-size: 14px;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="https://i.ibb.co/d0fz35Kx/Whats-App-Image-2025-02-07-at-09-30-34-1-removebg-preview.png" alt="Logo S & S">
+    <h1>S & S Distribuidora de Bebidas - Manaus</h1>
+    <a href="https://wa.me/559286161640?text=Ol%C3%A1%2C+gostaria+de+fazer+um+pedido%21" target="_blank">
+      <button>Fale Conosco</button>
+    </a>
+  </header>
+
+  <div class="container">
+    <section>
+      <h2>Quem Somos</h2>
+      <p>Especializada no fornecimento rápido e eficiente de águas, refrigerantes, energéticos e cervejas para o varejo e eventos em Manaus.</p>
+    </section>
+
+    <section>
+      <h2>Nossos Produtos</h2>
+      <p>Trabalhamos com marcas de qualidade e atendimento rápido, oferecendo uma linha diversificada de bebidas para atender a todos os perfis de consumo.</p>
+    </section>
+
+    <div class="buttons">
+      <button class="active" onclick="mostrarCategoria('agua')">Água Mineral</button>
+      <button onclick="mostrarCategoria('refrigerantes')">Refrigerantes</button>
+      <button onclick="mostrarCategoria('energeticos')">Energéticos</button>
+      <button onclick="mostrarCategoria('cervejas')">Cervejas</button>
+    </div>
+
+    <div id="agua" class="gallery">
+      <img src="https://i.ibb.co/fGQq40X2/Whats-App-Image-2025-02-18-at-12-27-40-removebg-preview.png" alt="Água Aguacrim 20L">
+      <img src="https://i.ibb.co/CpntKL53/Whats-App-Image-2025-02-18-at-12-27-41-removebg-preview.png" alt="Água Yara 20L">
+      <img src="https://i.ibb.co/QSBY80h/agua-mineral-yara-5l-6408d13f-eabf-45f1-8aa1-c68e68b0c7a3.png" alt="Água Yara 5L">
+    </div>
+
+    <div id="refrigerantes" class="gallery hidden">
+      <img src="https://i.ibb.co/KpYPXfpH/557250-1-removebg-preview.png" alt="Refrigerante Exemplo">
+      <img src="https://i.ibb.co/mVVLL6YL/Refrigerante-Guaran-Antarctica-2l-removebg-preview.png" alt="Refrigerante Guaraná Antarctica 2L">
+    </div>
+
+    <div id="energeticos" class="gallery hidden">
+      <img src="https://i.ibb.co/jZ3Z6qp1/178729-800-auto-removebg-preview.png" alt="Energético">
+    </div>
+    <div id="cervejas" class="gallery hidden">
+      <img src="https://i.ibb.co/b5nSKgCg/3407249-800-450-removebg-preview.png" alt="Cerveja">
+    </div>
+  </div>
+
+  <section>
+    <h2>Jogo do Garrafão</h2>
+    <canvas id="gameCanvas" width="800" height="300" style="background: #cce7ff; border-radius: 8px; display: block; margin: 20px auto;"></canvas>
+  </section>
+
+  <footer>
+    &copy; 2025 S & S Distribuidora de Bebidas - Manaus. Todos os direitos reservados.
+  </footer>
+
+  <script>
+    function mostrarCategoria(id) {
+      const galerias = document.querySelectorAll('.gallery');
+      const botoes = document.querySelectorAll('.buttons button');
+
+      galerias.forEach(g => g.classList.add('hidden'));
+      botoes.forEach(b => b.classList.remove('active'));
+
+      document.getElementById(id).classList.remove('hidden');
+      event.target.classList.add('active');
+    }
+  </script>
+
+  <script>
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas?.getContext('2d');
+
+    if (ctx) {
+      let moto = { x: 50, y: 170, w: 120, h: 120, vy: 0, jumping: false };
+      let garrafoes = [];
+      let gameOver = false;
+      let startTime = Date.now();
+      let elapsedTime = 0;
+      let gravity = 1.5;
+
+      function resetGame() {
+        moto.y = 170;
+        moto.vy = 0;
+        moto.jumping = false;
+        garrafoes = [];
+        gameOver = false;
+        startTime = Date.now();
+        animate();
+      }
+
+      function drawMoto() {
+        const img = new Image();
+        img.src = 'https://i.ibb.co/99Hk8XFL/10247350-removebg-preview.png';
+        ctx.drawImage(img, moto.x, moto.y, moto.w, moto.h);
+      }
+
+      function drawGarrafao(g) {
+        const img = new Image();
+        img.src = 'https://i.ibb.co/PswHLm5r/Chat-GPT-Image-10-de-abr-de-2025-09-01-39-removebg-preview.png';
+        ctx.drawImage(img, g.x, g.y, g.w, g.h);
+      }
+
+      let cloudX = 600;
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        const cloudImg = new Image();
+        cloudImg.src = 'https://i.ibb.co/20H8dwXn/4c2e2bf02abe1a3e1b8c1a0fa6f2a084-removebg-preview.png';
+        ctx.drawImage(cloudImg, cloudX, 30, 100, 60);
+        cloudX -= 1;
+        if (cloudX + 100 < 0) cloudX = canvas.width;
+
+        elapsedTime = Math.floor((Date.now() - startTime) / 1000);
+        ctx.fillStyle = 'black';
+        ctx.font = '16px sans-serif';
+        ctx.fillText('Tempo: ' + elapsedTime + 's', 10, 20);
+        ctx.fillStyle = '#006400';
+        ctx.fillRect(0, 270, canvas.width, 30);
+
+        drawMoto();
+
+        if (garrafoes.length === 0 && Math.random() < 0.004) {
+          garrafoes.push({ x: canvas.width, y: 220, w: 30, h: 60 });
+        }
+
+        for (let i = garrafoes.length - 1; i >= 0; i--) {
+          garrafoes[i].x -= 6;
+          drawGarrafao(garrafoes[i]);
+
+          if (
+            moto.x < garrafoes[i].x + garrafoes[i].w &&
+            moto.x + moto.w > garrafoes[i].x &&
+            moto.y < garrafoes[i].y + garrafoes[i].h &&
+            moto.y + moto.h > garrafoes[i].y
+          ) {
+            ctx.fillStyle = 'red';
+            ctx.font = '30px sans-serif';
+            ctx.fillText('Game Over', 320, 150);
+            ctx.fillText('Tempo total: ' + elapsedTime + 's', 320, 180);
+            gameOver = true;
+            return;
+          }
+
+          if (garrafoes[i].x + garrafoes[i].w < 0) garrafoes.splice(i, 1);
+        }
+
+        moto.y += moto.vy;
+        if (moto.y < 170) {
+          moto.vy += gravity;
+        } else {
+          moto.vy = 0;
+          moto.y = 170;
+          moto.jumping = false;
+        }
+
+        if (!gameOver) requestAnimationFrame(animate);
+      }
+
+      window.addEventListener('keydown', function (e) {
+        if (e.code === 'Space') {
+          if (gameOver) {
+            resetGame();
+          } else if (!moto.jumping) {
+            moto.vy = -28;
+            moto.jumping = true;
+          }
+        }
+      });
+
+      canvas.addEventListener('touchstart', function () {
+        if (gameOver) {
+          resetGame();
+        } else if (!moto.jumping) {
+          moto.vy = -28;
+          moto.jumping = true;
+        }
+      });
+
+      animate();
+    }
+  </script>
+</body>
+</html>
